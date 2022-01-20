@@ -2,26 +2,20 @@
 //
 
 #include <windows.h>
-#include "GEOMETRICOBJECT.H"
+#include "Figure2D.h"
 
 void test()
 {
-	GeometricObject test;
-	string teststr;
-	int testint;
-	test.PrintSelf();
-	cout << test.CheckAxes() << endl;
-	cout << "input name ";
-	cin >> teststr;
-	test.SetName(teststr);
-	cout << "input dimcount ";
-	cin >> testint;
-	test.SetDimensionCount(testint);
-	test.AddAxis("test axis");
-	test.PrintSelf();
-	cout << test.CheckAxes() << endl;
-
-
+	GeometricObject* test1 = new GeometricObject;
+	test1->Fill();
+	cout << endl;
+	Point* test2 = new Point;
+	test2->Fill();
+	cout << endl;
+	Figure2D* test3 = new Figure2D;
+	test3->Fill();
+	cout << endl;
+	test3->PrintSelf();
 }
 
 int main()
