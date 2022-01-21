@@ -2,13 +2,14 @@
 
 GeometricObject::GeometricObject()
 {
-	dimensionAmount = 0;
+	dimensions = 0;
+	name = "";
 	cout << "Object created." << endl;
 }
 
 GeometricObject::GeometricObject(int fDimensions, vector<string> fAxes)
 {
-	dimensionAmount = fDimensions;
+	dimensions = fDimensions;
 	axes = fAxes;
 	cout << "Object created." << endl;
 }
@@ -25,10 +26,9 @@ string GeometricObject::GetName()
 	return name;
 }
 
-int GeometricObject::GetDimensionAmount()
+int GeometricObject::GetDimensions()
 {
-	dimensionAmount = axes.size();
-	return dimensionAmount;
+	return dimensions;
 }
 
 vector<string> GeometricObject::GetAxes()
@@ -47,9 +47,9 @@ void GeometricObject::SetAxes(vector<string> a)
 	axes = a;
 }
 
-void GeometricObject::SetDimensionAmount(int d)
+void GeometricObject::SetDimensions(int d)
 {
-	dimensionAmount = d;
+	dimensions = d;
 }
 
 //axes
@@ -65,7 +65,7 @@ void GeometricObject::PrintAxes()
 }
 void GeometricObject::AddAxis()
 {
-	if (axes.size() + 1 > dimensionAmount)
+	if (axes.size() + 1 > dimensions)
 	{
 		cout << "Unable to add axis. There cannot be more axes than dimensions." << endl;
 		cout << endl;
@@ -82,7 +82,7 @@ void GeometricObject::AddAxis()
 }
 void GeometricObject::AddAxis(string axis)
 {
-	if (axes.size() + 1 > dimensionAmount)
+	if (axes.size() + 1 > dimensions)
 	{
 		cout << "Unable to add axis. There cannot be more axes than dimensions." << endl;
 		cout << endl;
@@ -97,7 +97,7 @@ void GeometricObject::AddAxis(string axis)
 
 void GeometricObject::AddAxis(int i, string axis)
 {
-	if (axes.size() + 1 > dimensionAmount)
+	if (axes.size() + 1 > dimensions)
 	{
 		cout << "Unable to add axis. There cannot be more axes than dimensions." << endl;
 		cout << endl;
@@ -126,7 +126,7 @@ void GeometricObject::PrintSelf()
 {
 	cout << "*** OBJECT INFORMATION ***" << endl;
 	cout << "Object name: " << name << endl;
-	cout << "Dimensions: " << dimensionAmount<<endl;
+	cout << "Dimensions: " << dimensions << endl;
 	cout << "Axes: ";
 	PrintAxes();
 	cout << endl;
@@ -136,7 +136,6 @@ void GeometricObject::Fill()
 {
 	int tempi;
 	string temps;
-	double tempd;
 
 	if (name == "")
 	{
@@ -144,22 +143,22 @@ void GeometricObject::Fill()
 		cin >> temps;
 		name = temps;
 	}
-	if (dimensionAmount == 0)
+	if (dimensions == 0)
 	{
 		cout << "Input the amount of dimensions: ";
 		cin >> tempi;
-		dimensionAmount = tempi;
+		dimensions = tempi;
 	}
 	if (axes.size() == 0)
 	{
-		for (int i = 0; i < dimensionAmount; i++)
+		for (int i = 0; i < dimensions; i++)
 		{
 			cout << "Inputting axis " << i + 1 << "." << endl;
 			AddAxis();
 		}
 	}
-	cout << "Object " << name << " with " << dimensionAmount << " dimensions and axes ";
-	for (int k = 0; k < dimensionAmount; k++)
+	cout << "Object " << name << " with " << dimensions << " dimensions and axes ";
+	for (int k = 0; k < dimensions; k++)
 		cout << axes[k] <<" ";
 	cout << "added." << endl;
 	cout << "----------------"<<endl;

@@ -5,10 +5,8 @@ Point::Point()
 	cout << "Object is now a point." << endl;
 }
 
-Point::Point(int fDimensions, vector<string> fAxes)
+Point::Point(int fDimensions, vector<string> fAxes) : GeometricObject(fDimensions, fAxes)
 {
-	dimensionAmount = fDimensions;
-	axes = fAxes;
 	cout << "Object is now a point." << endl;
 }
 
@@ -19,7 +17,7 @@ Point::~Point()
 }
 
 //gets
-vector<float> Point::GetCoords()
+vector<float> Point::GetCoordinates()
 {
 	return coordinates;
 }
@@ -35,9 +33,9 @@ void Point::EditCoordinates()
 {
 	coordinates.clear();
 	float temp;
-	for (int i = 0; i < dimensionAmount; i++)
+	for (int i = 0; i < dimensions; i++)
 	{
-		cout << "Input coordinate value on axis " << axes[i] << " : ";
+		cout << "Input coordinate value on axis " << axes[i] << ": ";
 		scanf_s("%f", &temp);
 		coordinates.push_back(temp);
 	}
@@ -48,9 +46,9 @@ void Point::PrintCoords()
 {
 	cout << "Point " << name << " has coordinates (";
 	int i = 0;
-	for (int i = 0; i < dimensionAmount; i++)
+	for (int i = 0; i < dimensions; i++)
 	{
-		if (i == dimensionAmount - 1)
+		if (i == dimensions - 1)
 			cout << coordinates[i];
 		else
 			cout << coordinates[i] << ";";
@@ -62,7 +60,7 @@ void Point::PrintSelf()
 {
 	cout << "*** POINT INFORMATION ***" << endl;
 	cout << "Point name: " << name << endl;
-	cout << "Dimensions: " << dimensionAmount << endl;
+	cout << "Dimensions: " << dimensions << endl;
 	cout << "Axes: ";
 	PrintAxes();
 	PrintCoords();
@@ -80,4 +78,9 @@ void Point::Fill()
 	cout << "Point " << name << " added." << endl;
 	cout << "----------------" << endl;
 	cout << endl;
+}
+
+bool Point::operator==(Point other) 
+{
+	return coordinates == other.coordinates;
 }

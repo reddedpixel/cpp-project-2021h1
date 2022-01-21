@@ -8,7 +8,7 @@ class GeometricObject
 {
 protected:
 	string name;
-	int dimensionAmount;
+	int dimensions;
 	vector<string> axes;
 public:
 	GeometricObject();
@@ -17,13 +17,13 @@ public:
 
 	//gets
 	string GetName();
-	int GetDimensionAmount();
+	int GetDimensions();
 	vector<string> GetAxes();
 
 	//sets
 	void SetName(string n);
 	void SetAxes(vector<string> a);
-	void SetDimensionAmount(int d);
+	void SetDimensions(int d);
 
 	//axes
 	void PrintAxes();

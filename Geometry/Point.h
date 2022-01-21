@@ -7,10 +7,10 @@ protected:
 	vector<float> coordinates;
 public:
 	Point();
-	Point(int fDimensions, vector<string> fAxes);
+	Point(int fDimensions, vector<string> fAxes) ;
 	~Point();
 	//gets
-	vector<float> GetCoords();
+	vector<float> GetCoordinates();
 	//sets
 	void SetCoords(vector<float> v);
 
@@ -20,4 +20,6 @@ public:
 
 	virtual void PrintSelf();
 	virtual void Fill();
+
+	bool operator==(Point other);
 };
