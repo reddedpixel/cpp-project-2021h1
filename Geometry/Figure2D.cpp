@@ -98,10 +98,18 @@ void Figure2D::AddVertex(int i, Point* vertex)
 	}
 }
 
+void Figure2D::EditAllVertexCoordinates()
+{
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		cout << "Editing coordinates for vertex " << vertices[i]->GetName() << "." << endl;
+		vertices[i]->EditCoordinates();
+	}
+}
+
 void Figure2D::DeleteVertex(int i)
 {
 	vertices.erase(vertices.begin() + i);
-	edges -= 1;
 	cout << "Vertex at position " << i << " deleted." << endl;
 	cout << endl;
 }
@@ -233,6 +241,7 @@ void Figure2D::Fill()
 		cout << "- Adding new vertex " << i + 1 << ". -" << endl;
 		AddVertex();
 	}
+	vertices = SortVertices(vertices, edges);
 	cout << "2D figure " << name << " added." << endl;
 	cout << "----------------" << endl;
 	cout << endl;
@@ -247,6 +256,269 @@ void Figure2D::Clear()
 	edges = 0;
 	vertices.clear();
 	measure = 0;
+}
+
+void Figure2D::Edit()
+{
+	bool foundAxis = 0;
+	bool foundVertex = 0;
+	int tempi = 0;
+	string temps = "";
+	cout << "Select which field to edit (input the number):" << endl;
+	cout << "  1. Name" << endl;
+	cout << "  2. Dimensions" << endl;
+	cout << "  3. Axes" << endl;
+	cout << "  4. Edges" << endl;
+	cout << "  5. Vertices" << endl;
+	cout << "  6. Measure" << endl;
+	cin >> tempi;
+	switch (tempi)
+	{
+	case(1):
+	{
+		cout << "Current name: " << name << endl;
+		cout << "Input new name: ";
+		cin >> temps;
+		name = temps;
+		cout << "Name " << name << " set";
+		break;
+	}
+	case(2):
+	{
+		cout << "Current dimensions: " << dimensions << endl;
+		cout << "Current axes: ";
+		PrintAxes();
+		cout << endl;
+		cout << "Input new dimensions: ";
+		cin >> tempi;
+		dimensions = tempi;
+		if (dimensions > axes.size())
+		{
+			cout << "Adding new axes." << endl;
+			for (int i = 0; i < dimensions - axes.size(); i++)
+				AddAxis();
+			EditAllVertexCoordinates();
+		}
+		if (dimensions < axes.size())
+		{
+			cout << "Deleting excess axes." << endl;
+			for (int i = 0; i < axes.size() - dimensions; i++)
+			{
+				foundAxis = 0;
+				while (!foundAxis)
+				{
+					cout << "Input the name of the axis to delete: ";
+					cin >> temps;
+					for (int k = 0; k < axes.size(); k++)
+					{
+						if (axes[k] == temps)
+						{
+							tempi = k;
+							foundAxis = 1;
+						}
+					}
+					if (foundAxis)
+					{
+						DeleteAxis(tempi);
+						EditAllVertexCoordinates();
+					}
+					else
+						cout << "Unable to find an axis with that name." << endl;
+				}
+			}
+		}
+		break;
+	}
+	case(3):
+	{
+		cout << "Current axes: ";
+		PrintAxes();
+		cout << endl;
+		cout << "Select an option (input the number):" << endl;
+		cout << "  1. Add axis" << endl;
+		cout << "  2. Delete axis" << endl;
+		cin >> tempi;
+		switch (tempi)
+		{
+		case(1):
+		{
+			cout << "Input the axis name: ";
+			cin >> temps;
+			cout << "Input the number of the axis placement (e.g. 2 for 2nd, 3 for 3rd, 0 for at the end): ";
+			cin >> tempi;
+			if (tempi == 0)
+			{
+				AddAxis(temps);
+				EditAllVertexCoordinates();
+			}
+			else if (tempi > 0)
+			{
+				tempi--;
+				AddAxis(tempi, temps);
+				EditAllVertexCoordinates();
+			}
+			else
+			{
+				cout << "Invalid input." << endl;
+			}
+			break;
+		}
+		case(2):
+		{
+			cout << "Input the axis name: ";
+			cin >> temps;
+			foundAxis = 0;
+			for (int j = 0; j < axes.size(); j++)
+			{
+				if (axes[j] == temps)
+				{
+					foundAxis = 1;
+					tempi = j;
+				}
+			}
+			if (foundAxis)
+			{
+				DeleteAxis(tempi);
+				EditAllVertexCoordinates();
+			}
+			else
+				cout << "Unable to find an axis with that name." << endl;
+			break;
+		}
+		default:
+		{
+			cout << "Invalid input." << endl;
+			break;
+		}
+		}
+		break;
+	}
+	case(4):
+	{
+		cout << "Current edges: " << edges << endl;
+		cout << "Input the new amount of edges: ";
+		cin >> tempi;
+		SetEdges(tempi);
+		if (tempi < vertices.size())
+		{
+			cout << "Deleting excess vertices." << endl;
+			for (int s = 0; s < vertices.size() - tempi; s++)
+			{
+				foundVertex = 0;
+				while (!foundVertex)
+				{
+					cout << "Input the name of the vertex you want to delete: ";
+					cin >> temps;
+					for (int s1 = 0; s1 < vertices.size(); s1++)
+					{
+						if (vertices[s1]->GetName() == temps)
+						{
+							foundVertex = 1;
+							tempi = s1;
+						}
+					}
+					if (foundVertex)
+					{
+						DeleteVertex(tempi);
+					}
+					else
+						cout << "Unable to find a vertex with that name." << endl;
+				}
+			}
+		}
+		if (tempi > vertices.size())
+		{
+			for (int s2 = 0; s2 < tempi - vertices.size(); s2++)
+				AddVertex();
+		}
+		vertices = SortVertices(vertices, edges);
+		break;
+	}
+	case(5):
+	{
+		cout << "Current vertices: ";
+		PrintVertices();
+		cout << endl;
+		cout << "Select an option (input the number):" << endl;
+		cout << "  1. Add a vertex" << endl;
+		cout << "  2. Delete a vertex" << endl;
+		cout << "  3. Edit a vertex" << endl;
+		cin >> tempi;
+		switch (tempi)
+		{
+		case(1):
+		{
+			AddVertex();
+			edges++;
+			break;
+		}
+		case(2):
+		{
+			cout << "Input the name of the vertex: " << endl;
+			cin >> temps;
+			foundVertex = 0;
+			for (int m = 0; m < vertices.size(); m++)
+			{
+				if (vertices[m]->GetName() == temps)
+				{
+					foundVertex = 1;
+					tempi = m;
+				}
+			}
+			if (foundVertex)
+			{
+				DeleteVertex(tempi);
+				edges--;
+			}
+			else
+				cout << "Unable to find a vertex with that name." << endl;
+			break;
+		}
+		case(3):
+		{
+			cout << "Input the name of the vertex: " << endl;
+			cin >> temps;
+			foundVertex = 0;
+			for (int m1 = 0; m1 < vertices.size(); m1++)
+			{
+				if (vertices[m1]->GetName() == temps)
+				{
+					foundVertex = 1;
+					tempi = m1;
+				}
+			}
+			if (foundVertex)
+			{
+				vertices[tempi]->Edit();
+			}
+			else
+				cout << "Unable to find a vertex with that name." << endl;
+			break;
+		}
+		default:
+		{
+			cout << "Invalid input." << endl;
+			break;
+		}
+		}
+		vertices = SortVertices(vertices, edges);
+		break;
+	}
+	case(6):
+	{
+		cout << "Current measure: " << measure << endl;
+		cout << "Input new measure: ";
+		float tempf;
+		scanf_s("%f", &tempf);
+		measure = tempf;
+		break;
+	}
+	default:
+	{
+		cout << "Invalid input." << endl;
+		break;
+	}
+	}
 }
 
 void Figure2D::Save(ofstream& f)
