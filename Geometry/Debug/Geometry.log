@@ -1,5 +1,9 @@
-﻿  Line.cpp
-D:\studies\uni\программирование\Geometry\Geometry\Line.cpp(112,23): warning C4018: <: несоответствие типов со знаком и без знака
-  Straight.cpp
-  Создание кода...
+﻿  Figure3D.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(100,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(117,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(156,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(190,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(241,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(247,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(251,20): warning C4018: <: несоответствие типов со знаком и без знака
   Geometry.vcxproj -> D:\studies\uni\программирование\Geometry\Geometry\Debug\Geometry.exe

@@ -45,57 +45,30 @@ void Figure3D::SetFaces(vector<Figure2D*> f)
 //vertices
 void Figure3D::AddVertex()
 {
-	/*if (vertices.size() - edges + faces.size() == 2)
-	{
-		cout << "Unable to add vertex. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
-	}
-	else
-	{*/
-		Point* vertex = new Point(dimensions, axes);
-		vertex->Fill();
-		vertices.push_back(vertex);
-		cout << "Vertex " << vertex->GetName() << " added." << endl;
-		cout << endl;
-	//}
+	Point* vertex = new Point(dimensions, axes);
+	vertex->Fill();
+	vertices.push_back(vertex);
+	cout << "Vertex " << vertex->GetName() << " added." << endl;
+	cout << endl;
 }
 
 void Figure3D::AddVertex(Point* vertex)
 {
-	/*if (vertices.size() - edges + faces.size() == 2)
-	{
-		cout << "Unable to add vertex. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
-	}
-	else
-	{*/
-		vertices.push_back(vertex);
-		cout << "Vertex " << vertex->GetName() << " added." << endl;
-		cout << endl;
-	//}
+	vertices.push_back(vertex);
+	cout << "Vertex " << vertex->GetName() << " added." << endl;
+	cout << endl;
 }
 
 void Figure3D::AddVertex(int i, Point* vertex)
 {
-	/*if (vertices.size() - edges + faces.size() == 2)
-	{
-		cout << "Unable to add vertex. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
-	}
-	else
-	{*/
 		vertices.insert(vertices.begin() + i, vertex);
 		cout << "Vertex " << vertex->GetName() << " added at position " << i << "." << endl;
 		cout << endl;
-	//}
 }
 
 //faces
 void Figure3D::AddFace()
 {
-	/*if (vertices.size() - edges + faces.size() == 2)
-	{
-		cout << "Unable to add face. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
-	}
-	else
-	{*/
 	bool edgesAccountedFor = 0;
 	string temps;
 	Figure2D* face = new Figure2D(dimensions, axes);
@@ -135,9 +108,7 @@ void Figure3D::AddFace()
 				if (!foundVertex)
 					cout << "Unable to find vertex with that name. Please try again." << endl;
 			}
-				
 		}
-		edges = edges + face->GetEdges() - tempi + 1;
 		edgesAccountedFor = 1;
 	}
 	face->Fill();
@@ -150,37 +121,27 @@ void Figure3D::AddFace()
 	SetVertices(vertexList);
 	if (!edgesAccountedFor)
 		edges = edges + face->GetEdges();
+	else
+	{
+		if (!CheckEulersTheorem(vertices.size(), edges, faces.size()))
+			edges = edges + face->GetEdges() - tempi + 1;
+	}
 	cout << "New face " << face->GetName() << " added." << endl;
 	cout << endl;
-	//}
 }
 
 void Figure3D::Figure3D::AddFace(Figure2D* face)
 {
-	/*if (vertices.size() - edges + faces.size() == 2)
-	{
-		cout << "Unable to add face. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
-	}
-	else
-	{*/
 		faces.push_back(face);
 		cout << "Face " << face->GetName() << " added." << endl;
 		cout << endl;
-	//}
 }
 
 void Figure3D::AddFace(int i, Figure2D* face)
 {
-	/*if (vertices.size() - edges + faces.size() == 2)
-	{
-		cout << "Unable to add face. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
-	}
-	else
-	{*/
 		faces.insert(faces.begin() + i, face);
 		cout << "Face " << face->GetName() << " added at position " << i << "." << endl;
 		cout << endl;
-	//}
 }
 
 void Figure3D::DeleteFace(int i)
@@ -206,10 +167,10 @@ float Figure3D::CalculateMeasure()
 	return measure;
 }
 
-bool Figure3D::CheckEulersTheorem()
+bool Figure3D::CheckEulersTheorem(int v, int e, int f)
 {
 	bool b = 0;
-	if (vertices.size() - edges + faces.size() == 2)
+	if (v - e + f == 2)
 		b = 1;
 	return b;
 }
@@ -240,7 +201,7 @@ void Figure3D::Fill()
 	cout << "- Filling general object information. -" << endl;
 	GeometricObject::Fill();
 	cout << "---- Filling specific 3D figure information. ----" << endl;
-	if (CheckEulersTheorem())
+	if (CheckEulersTheorem(vertices.size(), edges, faces.size()))
 	{
 		cout << "Unable to fill figure. 3D figure must obey Euler's theorem: V - E + F = 2." << endl;
 	}
@@ -257,4 +218,42 @@ void Figure3D::Fill()
 	cout << "3D figure " << name << " added." << endl;
 	cout << "----------------" << endl;
 	cout << endl;
+}
+
+void Figure3D::Clear()
+{
+	name = "";
+	dimensions = 0;
+	axes.clear();
+	coordinates.clear();
+	edges = 0;
+	vertices.clear();
+	measure = 0;
+	faces.clear();
+}
+
+void Figure3D::Save(ofstream& f)
+{
+	f << "<Figure3D>" << endl;
+	f << "name: " << name << endl;
+	f << "dimensions: " << dimensions << endl;
+	f << "axes: ";
+	for (int i = 0; i < axes.size(); i++)
+		f << axes[i] << " ";
+	f << endl;
+	f << "coordinates: 0" << endl;
+	f << "edges: " << edges << endl;
+	f << "vertices: " << endl;
+	for (int k = 0; k < vertices.size(); k++)
+		vertices[k]->Save(f);
+	f << "measure: " << measure << endl;
+	f << "faces: " << endl;
+	for (int l = 0; l < faces.size(); l++)
+		faces[l]->Save(f);
+	f << "</Figure3D>" << endl;
+}
+
+void Figure3D::Load(vector<string> x)
+{
+
 }

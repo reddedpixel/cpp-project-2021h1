@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -35,7 +36,9 @@ public:
 
 	virtual void PrintSelf();
 	virtual void Fill();
+	virtual void Clear();
+	virtual void Edit();
 
-	virtual void Save(FILE* F);
-	virtual void Load(FILE* F);
+	virtual void Save(ofstream& f);
+	virtual void Load(vector<string> x);
 };

@@ -29,10 +29,11 @@ public:
 	//measure
 	virtual float CalculateMeasure();
 
-	bool CheckEulersTheorem();
+	bool CheckEulersTheorem(int v, int e, int f);
 	virtual void PrintSelf();
 	virtual void Fill();
+	virtual void Clear();
 
-	virtual void Save();
-	virtual void Load();
+	virtual void Save(ofstream& f);
+	virtual void Load(vector<string> x);
 };

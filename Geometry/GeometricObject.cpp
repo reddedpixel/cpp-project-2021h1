@@ -117,11 +117,6 @@ void GeometricObject::DeleteAxis(int i)
 	cout << endl;
 }
 
-/*string GeometricObject::GetOneAxis(int i)
-{
-	return axes[i]; 
-}*/
-
 void GeometricObject::PrintSelf()
 {
 	cout << "*** OBJECT INFORMATION ***" << endl;
@@ -165,14 +160,86 @@ void GeometricObject::Fill()
 	cout << endl;
 }
 
-void GeometricObject::Save(FILE* F)
+void GeometricObject::Clear()
 {
-
+	name = "";
+	dimensions = 0;
+	axes.clear();
 }
 
-void GeometricObject::Load(FILE* F)
+void GeometricObject::Edit()
 {
-	fprintf(F, "%s\n", "GeometricObject");
-	fprintf(F, "%s", "name :");
-	
+	int tempi = 0;
+	string temps = "";
+	cout << "Select which field to edit (input the number):" << endl;
+	cout << "  1. Name" << endl;
+	cout << "  2. Dimensions and axes" << endl;
+	cin >> tempi;
+	switch (tempi)
+	{
+	case(1):
+	{
+		cout << "Current name: " << name << endl;
+		cout << "Input new name: ";
+		cin >> temps;
+		name = temps;
+		cout << "Name " << name << " set";
+		break;
+	}
+	case(2):
+	{
+		cout << "Current dimensions: " << dimensions << endl;
+		cout << "Current axes: ";
+		PrintAxes();
+		cout << endl;
+		cout << "Input new dimensions: ";
+		cin >> tempi;
+		dimensions = tempi;
+		if (dimensions > axes.size())
+		{
+			cout << "Adding new axes." << endl;
+			for (int i = 0; i < dimensions - axes.size(); i++)
+				AddAxis();
+		}
+		if (dimensions < axes.size())
+		{
+			cout << "Deleting excess axes." << endl;
+			for (int i = 0; i < axes.size() - dimensions; i++)
+			{
+				cout << "Input the name of the axis to delete: ";
+				cin >> temps;
+				for (int k = 0; k < axes.size(); k++)
+				{
+					if (axes[k] == temps)
+						tempi = k;
+				}
+				DeleteAxis(tempi);
+			}
+		}
+		break;
+	}
+	default:
+	{
+		cout << "Invalid input." << endl;
+		break;
+	}
+	}
+	cout << "Returning to menu." << endl;
+}
+
+void GeometricObject::Save(ofstream& f)
+{
+	f << "<GeometricObject>" << endl;
+	f << "name: " << name << endl;
+	f << "dimensions: " << dimensions << endl;
+	f << "axes: ";
+	for (int i = 0; i < axes.size(); i++)
+		f << axes[i] << " ";
+	f << endl;
+	f << "</GeometricObject>" << endl;
+}
+
+void GeometricObject::Load(vector<string> x)
+{
+	//to be continued...
 }

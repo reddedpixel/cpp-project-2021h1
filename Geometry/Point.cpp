@@ -63,6 +63,7 @@ void Point::PrintSelf()
 	cout << "Dimensions: " << dimensions << endl;
 	cout << "Axes: ";
 	PrintAxes();
+	cout << endl;
 	PrintCoords();
 	cout << endl;
 }
@@ -80,7 +81,35 @@ void Point::Fill()
 	cout << endl;
 }
 
+void Point::Clear()
+{
+	name = "";
+	dimensions = 0;
+	axes.clear();
+	coordinates.clear();
+}
+
 bool Point::operator==(Point other) 
 {
 	return coordinates == other.coordinates;
+}
+
+void Point::Save(ofstream& f)
+{
+	f << "<Point>" << endl;
+	f << "name: " << name << endl;
+	f << "dimensions: " << dimensions << endl;
+	f << "axes: ";
+	for (int i = 0; i < axes.size(); i++)
+		f << axes[i] << " ";
+	f << endl;
+	f << "coordinates: ";
+	for (int k = 0; k < coordinates.size(); k++)
+		f << coordinates[k] << " ";
+	f << endl;
+	f << "</Point>" << endl;
+}
+void Point::Load(vector<string> x)
+{
+
 }

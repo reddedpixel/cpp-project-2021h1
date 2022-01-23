@@ -128,7 +128,7 @@ vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)
 	return vertexList;
 }
 
-vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)
+vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//сортировка quicksort'ом
 {
 	int i = 0;
 	int j = size - 1;
@@ -236,4 +236,38 @@ void Figure2D::Fill()
 	cout << "2D figure " << name << " added." << endl;
 	cout << "----------------" << endl;
 	cout << endl;
+}
+
+void Figure2D::Clear()
+{
+	name = "";
+	dimensions = 0;
+	axes.clear();
+	coordinates.clear();
+	edges = 0;
+	vertices.clear();
+	measure = 0;
+}
+
+void Figure2D::Save(ofstream& f)
+{
+	f << "<Figure2D>" << endl;
+	f << "name: " << name << endl;
+	f << "dimensions: " << dimensions << endl;
+	f << "axes: ";
+	for (int i = 0; i < axes.size(); i++)
+		f << axes[i] << " ";
+	f << endl;
+	f << "coordinates: 0" << endl;
+	f << "edges: " << edges << endl;
+	f << "vertices: " << endl;
+	for (int k = 0; k < vertices.size(); k++)
+		vertices[k]->Save(f);
+	f << "measure: " << measure << endl;
+	f << "</Figure2D>" << endl;
+}
+
+void Figure2D::Load(vector<string> x)
+{
+
 }
