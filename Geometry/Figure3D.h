@@ -20,6 +20,8 @@ public:
 	virtual void AddVertex();
 	virtual void AddVertex(Point* vertex);
 	virtual void AddVertex(int i, Point* vertex);
+	//edges
+	virtual int RecountEdges();
 	//faces
 	void AddFace();
 	void AddFace(Figure2D* face);
@@ -33,6 +35,7 @@ public:
 	virtual void PrintSelf();
 	virtual void Fill();
 	virtual void Clear();
+	virtual void Edit();
 
 	virtual void Save(ofstream& f);
 	virtual void Load(vector<string> x);

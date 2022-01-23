@@ -105,7 +105,7 @@ void GeometricObject::AddAxis(int i, string axis)
 	else
 	{
 		axes.insert(axes.begin() + i, axis);
-		cout << "Axis " << axis << " added at position "<<i<<"." << endl;
+		cout << "Axis " << axis << " added at position "<<i+1<<"." << endl;
 		cout << endl;
 	}
 }
@@ -113,7 +113,7 @@ void GeometricObject::AddAxis(int i, string axis)
 void GeometricObject::DeleteAxis(int i)
 {
 	axes.erase(axes.begin() + i);
-	cout << "Axis at position " << i << " deleted.";
+	cout << "Axis at position " << i+1 << " deleted.";
 	cout << endl;
 }
 
@@ -169,11 +169,13 @@ void GeometricObject::Clear()
 
 void GeometricObject::Edit()
 {
+	bool foundAxis = 0;
 	int tempi = 0;
 	string temps = "";
 	cout << "Select which field to edit (input the number):" << endl;
 	cout << "  1. Name" << endl;
-	cout << "  2. Dimensions and axes" << endl;
+	cout << "  2. Dimensions" << endl;
+	cout << "  3. Axes" << endl;
 	cin >> tempi;
 	switch (tempi)
 	{
@@ -206,15 +208,82 @@ void GeometricObject::Edit()
 			cout << "Deleting excess axes." << endl;
 			for (int i = 0; i < axes.size() - dimensions; i++)
 			{
-				cout << "Input the name of the axis to delete: ";
-				cin >> temps;
-				for (int k = 0; k < axes.size(); k++)
+				foundAxis = 0;
+				while (!foundAxis)
 				{
-					if (axes[k] == temps)
-						tempi = k;
+					cout << "Input the name of the axis to delete: ";
+					cin >> temps;
+					for (int k = 0; k < axes.size(); k++)
+					{
+						if (axes[k] == temps)
+						{
+							tempi = k;
+							foundAxis = 1;
+						}
+					}
+					if (foundAxis)
+						DeleteAxis(tempi);
+					else
+						cout << "Unable to find an axis with that name." << endl;
 				}
-				DeleteAxis(tempi);
 			}
+		}
+		break;
+	}
+	case(3):
+	{
+		cout << "Current axes: ";
+		PrintAxes();
+		cout << endl;
+		cout << "Select an option (input the number):" << endl;
+		cout << "  1. Add axis" << endl;
+		cout << "  2. Delete axis" << endl;
+		cin >> tempi;
+		switch (tempi)
+		{
+		case(1):
+		{
+			cout << "Input the axis name: ";
+			cin >> temps;
+			cout << "Input the number of the axis placement (e.g. 2 for 2nd, 3 for 3rd, 0 for at the end): ";
+			cin >> tempi;
+			if (tempi == 0)
+				AddAxis(temps);
+			else if (tempi > 0)
+			{
+				tempi--;
+				AddAxis(tempi, temps);
+			}
+			else
+			{
+				cout << "Invalid input." << endl;
+			}
+			break;
+		}
+		case(2):
+		{
+			cout << "Input the axis name: ";
+			cin >> temps;
+			foundAxis = 0;
+			for (int j = 0; j < axes.size(); j++)
+			{
+				if (axes[j] == temps)
+				{
+					foundAxis = 1;
+					tempi = j;
+				}
+			}
+			if (foundAxis)
+				DeleteAxis(tempi);
+			else
+				cout << "Unable to find an axis with that name." << endl;
+			break;
+		}
+		default:
+		{
+			cout << "Invalid input." << endl;
+			break;
+		}
 		}
 		break;
 	}
@@ -224,7 +293,6 @@ void GeometricObject::Edit()
 		break;
 	}
 	}
-	cout << "Returning to menu." << endl;
 }
 
 void GeometricObject::Save(ofstream& f)

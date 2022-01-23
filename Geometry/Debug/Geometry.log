@@ -1,9 +1,67 @@
-﻿  Figure3D.cpp
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(100,23): warning C4018: <: несоответствие типов со знаком и без знака
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(117,20): warning C4018: <: несоответствие типов со знаком и без знака
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(156,20): warning C4018: <: несоответствие типов со знаком и без знака
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(190,20): warning C4018: <: несоответствие типов со знаком и без знака
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(241,20): warning C4018: <: несоответствие типов со знаком и без знака
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(247,20): warning C4018: <: несоответствие типов со знаком и без знака
-D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(251,20): warning C4018: <: несоответствие типов со знаком и без знака
+﻿  Circle.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(113,18): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(116,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(120,18): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(123,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(130,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(189,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(241,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Figure2D.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(57,26): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(73,26): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(88,26): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(103,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(119,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(125,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(127,25): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(187,12): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(193,12): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(295,18): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(298,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(302,18): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(305,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(312,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(371,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(402,13): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(405,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(412,26): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(429,13): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(431,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(460,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(482,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(530,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure2D.cpp(536,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Figure3D.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(76,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(80,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(82,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(126,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(143,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(182,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(216,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(295,18): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(298,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(302,18): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(305,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(312,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(371,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(429,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(449,25): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(452,26): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(466,28): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(513,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(519,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Figure3D.cpp(523,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Point.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(36,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(49,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(123,18): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(126,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(130,18): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(133,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(139,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(198,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(247,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Point.cpp(251,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Создание кода...
   Geometry.vcxproj -> D:\studies\uni\программирование\Geometry\Geometry\Debug\Geometry.exe

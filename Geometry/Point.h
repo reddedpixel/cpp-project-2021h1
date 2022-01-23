@@ -21,6 +21,7 @@ public:
 	virtual void PrintSelf();
 	virtual void Fill();
 	virtual void Clear();
+	virtual void Edit();
 
 	bool operator==(Point other);
 

@@ -23,6 +23,7 @@ public:
 	virtual void AddVertex();
 	virtual void AddVertex(Point* vertex);
 	virtual void AddVertex(int i, Point* vertex);
+	void EditAllVertexCoordinates();
 	void DeleteVertex(int i);
 	void PrintVertices();
 	vector<Point*> RemoveDuplicateVertices(vector<Point*> vertexList);
@@ -33,6 +34,7 @@ public:
 	virtual void PrintSelf();
 	virtual void Fill();
 	virtual void Clear();
+	virtual void Edit();
 
 	virtual void Save(ofstream& f);
 	virtual void Load(vector<string> x);

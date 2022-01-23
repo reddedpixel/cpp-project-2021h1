@@ -77,6 +77,161 @@ void Circle::Clear()
 	radius = 0;
 }
 
+void Circle::Edit()
+{
+	bool foundAxis = 0;
+	bool foundVertex = 0;
+	int tempi = 0;
+	string temps = "";
+	cout << "Select which field to edit (input the number):" << endl;
+	cout << "  1. Name" << endl;
+	cout << "  2. Dimensions" << endl;
+	cout << "  3. Axes" << endl;
+	cout << "  4. Center" << endl;
+	cout << "  5. Radius" << endl;
+	cin >> tempi;
+	switch (tempi)
+	{
+	case(1):
+	{
+		cout << "Current name: " << name << endl;
+		cout << "Input new name: ";
+		cin >> temps;
+		name = temps;
+		cout << "Name " << name << " set";
+		break;
+	}
+	case(2):
+	{
+		cout << "Current dimensions: " << dimensions << endl;
+		cout << "Current axes: ";
+		PrintAxes();
+		cout << endl;
+		cout << "Input new dimensions: ";
+		cin >> tempi;
+		dimensions = tempi;
+		if (dimensions > axes.size())
+		{
+			cout << "Adding new axes." << endl;
+			for (int i = 0; i < dimensions - axes.size(); i++)
+				AddAxis();
+			vertices[0]->EditCoordinates();
+		}
+		if (dimensions < axes.size())
+		{
+			cout << "Deleting excess axes." << endl;
+			for (int i = 0; i < axes.size() - dimensions; i++)
+			{
+				foundAxis = 0;
+				while (!foundAxis)
+				{
+					cout << "Input the name of the axis to delete: ";
+					cin >> temps;
+					for (int k = 0; k < axes.size(); k++)
+					{
+						if (axes[k] == temps)
+						{
+							tempi = k;
+							foundAxis = 1;
+						}
+					}
+					if (foundAxis)
+					{
+						DeleteAxis(tempi);
+						vertices[0]->EditCoordinates();
+					}
+					else
+						cout << "Unable to find an axis with that name." << endl;
+				}
+			}
+		}
+		break;
+	}
+	case(3):
+	{
+		cout << "Current axes: ";
+		PrintAxes();
+		cout << endl;
+		cout << "Select an option (input the number):" << endl;
+		cout << "  1. Add axis" << endl;
+		cout << "  2. Delete axis" << endl;
+		cin >> tempi;
+		switch (tempi)
+		{
+		case(1):
+		{
+			cout << "Input the axis name: ";
+			cin >> temps;
+			cout << "Input the number of the axis placement (e.g. 2 for 2nd, 3 for 3rd, 0 for at the end): ";
+			cin >> tempi;
+			if (tempi == 0)
+			{
+				AddAxis(temps);
+				vertices[0]->EditCoordinates();
+			}
+			else if (tempi > 0)
+			{
+				tempi--;
+				AddAxis(tempi, temps);
+				vertices[0]->EditCoordinates();
+			}
+			else
+			{
+				cout << "Invalid input." << endl;
+			}
+			break;
+		}
+		case(2):
+		{
+			cout << "Input the axis name: ";
+			cin >> temps;
+			foundAxis = 0;
+			for (int j = 0; j < axes.size(); j++)
+			{
+				if (axes[j] == temps)
+				{
+					foundAxis = 1;
+					tempi = j;
+				}
+			}
+			if (foundAxis)
+			{
+				DeleteAxis(tempi);
+				vertices[0]->EditCoordinates();
+			}
+			else
+				cout << "Unable to find an axis with that name." << endl;
+			break;
+		}
+		default:
+		{
+			cout << "Invalid input." << endl;
+			break;
+		}
+		}
+		break;
+	}
+	case(4):
+	{
+		cout << "Current center info:" << endl;
+		vertices[0]->PrintSelf();
+		vertices[0]->Edit();
+		break;
+	}
+	case(5):
+	{
+		cout << "Current radius: " << radius << endl;
+		cout << "Input new radius: ";
+		float tempf;
+		scanf_s("%f", &tempf);
+		radius = tempf;
+		break;
+	}
+	default:
+		cout << "Incorrect input." << endl;
+	}
+}
+
 void Circle::Save(ofstream& f)
 {
 	f << "<Circle>" << endl;
