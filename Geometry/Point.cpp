@@ -109,7 +109,36 @@ void Point::Save(ofstream& f)
 	f << endl;
 	f << "</Point>" << endl;
 }
-void Point::Load(vector<string> x)
-{
 
+void Point::Load(ifstream& fileStream) {
+    std::string buffer, fieldName, fieldValue;
+    bool foundStart = false;
+    while (getline(fileStream, buffer) && buffer != "</Point>") {
+        // удаление лишних пробелов из конца и начала строки
+        buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
+        buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
+        if (buffer == "<Point>") {
+            foundStart = true;
+        } else if (foundStart) {
+            fieldName = buffer.substr(0, buffer.find(':'));
+            fieldValue = buffer.substr(buffer.find(':') + 1);
+            // удаление лишних пробелов из начала
+            fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
+            if (fieldName == "name" && name.empty()) {
+                name = fieldValue;
+            } else if (fieldName == "dimensions" && dimensions == 0) {
+                dimensions = stoi(fieldValue);
+            } else if (fieldName == "axes" && axes.empty()) {
+                std::istringstream stringStream(fieldValue);
+                while (stringStream >> buffer) {
+                    axes.push_back(buffer);
+                }
+            } else if (fieldName == "coordinates" && coordinates.empty()) {
+                std::istringstream stringStream(fieldValue);
+                while (stringStream >> buffer) {
+                    coordinates.push_back(stof(buffer));
+                }
+            }
+        }
+    }
 }

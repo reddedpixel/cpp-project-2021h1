@@ -7,6 +7,8 @@
 
 class Line: GeometricObject {
 public:
+    Line();
+
     Line(int nDimensions, vector<string> axes, std::vector<Point> points);
 
     ~Line() = default;
@@ -33,9 +35,11 @@ public:
 
     std::string getEquation();
 
+    void Load(ifstream& fileStream);
+
     bool operator==(const Line& other);
 
-private:
+protected:
     std::string _equation;
     std::vector<Point> _points;
     Point _start;

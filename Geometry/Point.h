@@ -25,5 +25,5 @@ public:
 	bool operator==(Point other);
 
 	virtual void Save(ofstream& f);
-	virtual void Load(vector<string> x);
+	virtual void Load(ifstream& fileStream);
 };

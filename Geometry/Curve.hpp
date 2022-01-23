@@ -6,6 +6,8 @@
 
 class Curve: Line {
 public:
+    Curve();
+
     Curve(int nDimensions, std::vector<std::string> axes,
           std::vector<Point> points, std::string curveType);
 

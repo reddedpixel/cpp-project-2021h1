@@ -6,6 +6,8 @@
 
 class Straight: Line {
 public:
+    Straight();
+
     Straight(int nDimensions, std::vector<std::string> axes,
              std::vector<Point> points, std::vector<Line> parallelLines);
 
