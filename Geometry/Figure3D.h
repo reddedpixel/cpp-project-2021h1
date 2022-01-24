@@ -29,14 +29,14 @@ public:
 	void DeleteFace(int i);
 	void PrintFaces();
 	//measure
-	virtual float CalculateMeasure();
+	virtual float CalculateMeasure();//здесь просто возвращает объем.  ласс Sphere с подсчЄтом объема реализовать € не успел :/
 
-	bool CheckEulersTheorem(int v, int e, int f);
+	bool CheckEulersTheorem(int v, int e, int f);//проверка на выполнение теоремы Ёйлера дл€ выпуклых многогранников
 	virtual void PrintSelf();
 	virtual void Fill();
 	virtual void Clear();
 	virtual void Edit();
 
 	virtual void Save(ofstream& f);
-	virtual void Load(ifstream& fileStream);
+	virtual void Load(vector<string> x);
 };

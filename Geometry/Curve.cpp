@@ -1,13 +1,14 @@
 #include "Curve.hpp"
-
 #include <utility>
 
-Curve::Curve(): Line() {
+Curve::Curve()
+{
     _curveType = "";
+    cout << "Object is now a curve." << endl;
 }
 
 Curve::Curve(int nDimensions, std::vector<std::string> axes,
-             std::vector<Point> points,
+             std::vector<Point*> points,
              std::string curveType): Line(nDimensions, std::move(axes), std::move(points)) {
     _curveType = std::move(curveType);
 }
@@ -18,6 +19,34 @@ std::string Curve::getCurveType() {
 
 void Curve::setCurveType(std::string curveType) {
     _curveType = std::move(curveType);
+}
+
+void Curve::Fill()
+{
+    int tempi;
+    string temps;
+    cout << "- Filling general object information. -" << endl;
+    GeometricObject::Fill();
+    cout << "--- Filling specific curve information. ---" << endl;
+    cout << "Input equation: ";
+    cin >> temps;
+    _equation = temps;
+    cout << "- Adding start point. -" << endl;
+    Point* spoint = new Point(dimensions, axes);
+    spoint->Fill();
+    _start = spoint;
+    cout << "- Adding end point. -" << endl;
+    Point* epoint = new Point(dimensions, axes);
+    epoint->Fill();
+    cout << "Input length: ";
+    cin >> tempi;
+    _length = tempi;
+    cout << "Input curve type: ";
+    cin >> temps;
+    _curveType = temps;
+    cout << "Curve " << name << " (" << _curveType << ") with equation " << _equation << " added." << endl;
+    cout << "----------------" << endl;
+    cout << endl;
 }
 
 void Curve::Clear() {
@@ -31,9 +60,11 @@ void Curve::Load(ifstream &fileStream) {
 
     while (getline(fileStream, buffer) && buffer != "</Curve>") {
         // удаление лишних пробелов из конца строки buffer
-        buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
+        buffer.erase(std::find_if_not(buffer.rbegin(), buffer.rend(),
+                                      ::isspace).base(), buffer.end());
         // удаление лишних пробелов из начала строки buffer
-        buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
+        buffer.erase(buffer.begin(),
+                     std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
 
         if (buffer == "<Curve>") {
             foundStart = true;
@@ -43,7 +74,9 @@ void Curve::Load(ifstream &fileStream) {
             fieldValue = buffer.substr(buffer.find(':') + 1);
 
             // удаление лишних пробелов из начала строки fieldValue
-            fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
+            fieldValue.erase(fieldValue.begin(),
+                             std::find_if_not(fieldValue.begin(),
+                                              fieldValue.end(), ::isspace));
 
             // в зависимости от названия поля обрабатываем его
             if (fieldName == "name" && name.empty()) {
@@ -68,7 +101,9 @@ void Curve::Load(ifstream &fileStream) {
                     long long pos = fileStream.tellg();
                     // читаем и парсим следующую строку файла
                     getline(fileStream, nextLine);
-                    nextLine.erase(nextLine.begin(), std::find_if_not(nextLine.begin(), nextLine.end(), ::isspace));
+                    nextLine.erase(nextLine.begin(),
+                                   std::find_if_not(nextLine.begin(),
+                                                    nextLine.end(), ::isspace));
                     nextLine = nextLine.substr(0, buffer.find(':'));
                     // возвращаем курсор на значение до чтения строки
                     fileStream.seekg(pos);

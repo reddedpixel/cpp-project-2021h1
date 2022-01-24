@@ -251,7 +251,7 @@ void GeometricObject::Edit()
 				AddAxis(temps);
 			else if (tempi > 0)
 			{
-				tempi--;
+				tempi--;//������ ��� �� ������� �� 0, � ������������ �� 1
 				AddAxis(tempi, temps);
 			}
 			else

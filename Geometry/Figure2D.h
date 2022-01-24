@@ -23,13 +23,13 @@ public:
 	virtual void AddVertex();
 	virtual void AddVertex(Point* vertex);
 	virtual void AddVertex(int i, Point* vertex);
-	void EditAllVertexCoordinates();
+	void EditAllVertexCoordinates();//нужно для редактирования осей/количества измерений в двумерной фигуре
 	void DeleteVertex(int i);
 	void PrintVertices();
-	vector<Point*> RemoveDuplicateVertices(vector<Point*> vertexList);
-	vector<Point*> SortVertices(vector<Point*> vertexList, int size);
+	vector<Point*> RemoveDuplicateVertices(vector<Point*> vertexList);//удаление вершин с одинаковыми координатами
+	vector<Point*> SortVertices(vector<Point*> vertexList, int size);//сортировка вершин quicksort'ом по имени
 	//measure
-	virtual float CalculateMeasure();
+	virtual float CalculateMeasure();//здесь просто возвращает значение, но для Circle считает
 	
 	virtual void PrintSelf();
 	virtual void Fill();
@@ -37,5 +37,5 @@ public:
 	virtual void Edit();
 
 	virtual void Save(ofstream& f);
-	virtual void Load(ifstream& fileStream);
+	virtual void Load(vector<string> x);
 };

@@ -8,15 +8,9 @@ Straight::Straight(): Line() {
 }
 
 Straight::Straight(int nDimensions, std::vector<std::string> axes,
-                   std::vector<Point> points,
+                   std::vector<Point*> points,
                    std::vector<Line> parallelLines)
                    : Line(nDimensions, std::move(axes), std::move(points)) {
-    float sum = 0;
-    for (int i = 0; i < nDimensions; i++) {
-        float coordsDiff = _end.GetCoordinates()[i] - _start.GetCoordinates()[i];
-        sum += coordsDiff * coordsDiff;
-    }
-    _length = int(sqrt(sum));
     _parallelLines = std::move(parallelLines);
 }
 

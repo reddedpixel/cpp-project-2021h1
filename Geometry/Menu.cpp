@@ -38,7 +38,7 @@ void Menu::AddObject()
 	}
 	case(3):
 	{
-		cout << "Currently availavble 2D figures:" << endl;
+		cout << "Currently available 2D figures:" << endl;
 		cout << " 1. General 2D figure" << endl;
 		cout << " 2. Circle" << endl;
 		cout << "Input the number of the object you'd like to add: ";
@@ -69,7 +69,7 @@ void Menu::AddObject()
 	}
 	case(4):
 	{
-		cout << "Currently availavble 3D figures:" << endl;
+		cout << "Currently available 3D figures:" << endl;
 		cout << " 1. General 3D figure" << endl;
 		cout << "Input the number of the object you'd like to add: ";
 		cin >> tempi;
@@ -92,7 +92,7 @@ void Menu::AddObject()
 	}
 	case(5):
 	{
-		cout << "Currently availavble lines:" << endl;
+		cout << "Currently available lines:" << endl;
 		cout << " 1. General line" << endl;
 		cout << " 2. Straight line" << endl;
 		cout << " 3. Curve" << endl;
@@ -102,23 +102,23 @@ void Menu::AddObject()
 		{
 		case(1):
 		{
-			/*Line* line = new Line;
-			Line->Fill();
-			objectList.push_back(line);*/
+			Line* line = new Line;
+			line->Fill();
+			objectList.push_back(line);
 			break;
 		}
 		case(2):
 		{
-			/*Straight* sline = new Straight;
+			Straight* sline = new Straight;
 			sline->Fill();
-			objectList.push_back(sline);*/
+			objectList.push_back(sline);
 			break;
 		}
 		case(3):
 		{
-			/*Curve* curve = new Curve;
+			Curve* curve = new Curve;
 			curve->Fill();
-			objectList.push_back(curve);*/
+			objectList.push_back(curve);
 			break;
 		}
 		default:
@@ -187,6 +187,7 @@ void Menu::PrintList()
 		cout << "No objects available. Returning to menu..." << endl;
 	else
 	{
+		objectList = SortByName(objectList, objectList.size());
 		cout << "*Total objects: " << objectList.size() <<"*"<< endl;
 		for (int i = 0; i < objectList.size(); i++)
 			objectList[i]->PrintSelf();
@@ -223,19 +224,19 @@ void Menu::MainMenu()
 	bool end = 0;
 	string answer;
 	int menuop = 0;
-	vector<GeometricObject*> objectList;
 	while (!end)
 	{
 		cout << "------------------------------" << endl;
 		cout << "Welcome to Geometry.exe!" << endl;
 		cout << "Please select one of the options:" << endl;
 		cout << "  1. Print all objects" << endl;
-		cout << "  2. Add new object" << endl;
-		cout << "  3. Delete an object" << endl;
-		cout << "  4. Edit an object" << endl;
-		cout << "  5. Load information from file" << endl;
-		cout << "  6. Save information to file" << endl;
-		cout << "  7. Exit" << endl;
+		cout << "  2. Print objects by dimension" << endl;
+		cout << "  3. Add new object" << endl;
+		cout << "  4. Delete an object" << endl;
+		cout << "  5. Edit an object" << endl;
+		cout << "  6. Load information from file" << endl;
+		cout << "  7. Save information to file" << endl;
+		cout << "  8. Exit" << endl;
 		cin >> menuop;
 		switch (menuop)
 		{
@@ -246,27 +247,72 @@ void Menu::MainMenu()
 		}
 		case(2):
 		{
-			AddObject();
+			if (objectList.size() == 0)
+				cout << "No objects available. Returning to menu..." << endl;
+			else
+			{
+				vector<GeometricObject*> dim0;
+				vector<GeometricObject*> dim1;
+				vector<GeometricObject*> dim2;
+				vector<GeometricObject*> dim3;
+				dim0 = FilterByDimensions(objectList, 0);
+				dim0 = SortByName(dim0, dim0.size());
+				if (dim0.size() != 0)
+				{
+					cout << "***** Objects with no dimensional data *****" << endl;
+					for (int c0 = 0; c0 < dim0.size(); c0++)
+						dim0[c0]->PrintSelf();
+				}
+				dim1 = FilterByDimensions(objectList, 1);
+				dim1 = SortByName(dim1, dim1.size());
+				if (dim1.size() != 0)
+				{
+					cout << "***** 1-dimensional objects *****" << endl;
+					for (int c1 = 0; c1 < dim1.size(); c1++)
+						dim1[c1]->PrintSelf();
+				}
+				dim2 = FilterByDimensions(objectList, 2);
+				dim2 = SortByName(dim2, dim2.size());
+				if (dim2.size() != 0)
+				{
+					cout << "***** 2-dimensional objects *****" << endl;
+					for (int c2 = 0; c2 < dim2.size(); c2++)
+						dim2[c2]->PrintSelf();
+				}
+				dim3 = FilterByDimensions(objectList, 3);
+				dim3 = SortByName(dim3, dim3.size());
+				if (dim3.size() != 0)
+				{
+					cout << "***** 3-dimensional objects *****" << endl;
+					for (int c3 = 0; c3 < dim3.size(); c3++)
+						dim3[c3]->PrintSelf();
+				}
+			}
 			break;
 		}
 		case(3):
 		{
-			DeleteObject(ChooseObject());
+			AddObject();
 			break;
 		}
 		case(4):
 		{
-			EditObject(ChooseObject());
+			DeleteObject(ChooseObject());
 			break;
 		}
 		case(5):
+		{
+			EditObject(ChooseObject());
+			break;
+		}
+		case(6):
 		{
 			cout << "Loading from file database.txt..." << endl;
 			Load();
 			cout << "Returning to menu." << endl;
 			break;
 		}
-		case(6):
+		case(7):
 		{
 			cout << "Saving will delete all information previously stored in file. Are you sure you want to save? (y/n): ";
 			cin >> answer;
@@ -280,7 +326,7 @@ void Menu::MainMenu()
 				cout << "Saving interrupted. Returning to menu." << endl;
 			break;
 		}
-		case(7):
+		case(8):
 		{
 			end = 1;
 			cout << "Exiting..." << endl;
@@ -358,4 +404,85 @@ void Menu::DeleteObject(int i)
 		else
 			cout << "Object not deleted. Returning to menu." << endl;
 	}
+}
+
+vector<GeometricObject*> Menu::SortByName(vector<GeometricObject*> list, int size)
+{
+	if (size != 0)
+	{
+		int i = 0;
+		int j = size - 1;
+		int midi = size / 2;
+		GeometricObject* mid = list[midi];
+		while (i <= j)
+		{
+			while (list[i]->GetName() < mid->GetName())
+				i++;
+			while (list[j]->GetName() > mid->GetName())
+				j--;
+			if (i <= j)
+			{
+				if (i != j)
+				{
+					GeometricObject* temp1 = list[i];
+					GeometricObject* temp2 = list[j];
+					list.erase(list.begin() + i);
+					list.insert(list.begin() + i, temp2);
+					list.erase(list.begin() + j);
+					list.insert(list.begin() + j, temp1);
+				}
+				i++;
+				j--;
+			}
+		}
+		vector<GeometricObject*> left;
+		int k1 = 0;
+		while (k1 < midi)
+		{
+			left.push_back(list[k1]);
+			k1++;
+		}
+		vector<GeometricObject*> right;
+		int k2 = midi;
+		while (k2 < size)
+		{
+			right.push_back(list[k2]);
+			k2++;
+		}
+		list.clear();
+
+		if (j > 0)
+			left = SortByName(left, left.size());
+		if (i < size)
+			right = SortByName(right, right.size());
+		int k3 = 0;
+		while (k3 < left.size())
+		{
+			list.push_back(left[k3]);
+			k3++;
+		}
+		k3 = 0;
+		while (k3 < right.size())
+		{
+			list.push_back(right[k3]);
+			k3++;
+		}
+	}
+	return list;
+}
+
+vector<GeometricObject*> Menu::FilterByDimensions(vector<GeometricObject*> list, int controldimensions)
+{
+	if (list.size() > 0)
+	{
+		vector<GeometricObject*> templist;
+		for (int i = 0; i < list.size(); i++)
+		{
+			if (list[i]->GetDimensions() == controldimensions)
+				templist.push_back(list[i]);
+		}
+		list.swap(templist);
+		templist.clear();
+	}
+	return list;
 }

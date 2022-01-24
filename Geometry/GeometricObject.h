@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -41,5 +42,5 @@ public:
 	virtual void Edit();
 
 	virtual void Save(ofstream& f);
-	virtual void Load(ifstream& fileStream);
+	virtual void Load(vector<string> x);
 };

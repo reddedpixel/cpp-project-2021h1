@@ -120,7 +120,7 @@ void Figure2D::PrintVertices()
 			cout << vertices[i]->GetName()<<" ";
 }
 
-vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)
+vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)//������� ��������� ���� ��������� ���������
 {
 	for (int i = 0; i < vertexList.size()-1; i++)
 	{
@@ -136,68 +136,69 @@ vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)
 	return vertexList;
 }
 
-vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//���������� quicksort'��
+vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//����������� ���������� quicksort'�� �� �����
 {
-	int i = 0;
-	int j = size - 1;
-	int midi = size / 2;
-	Point* mid = vertexList[midi];
-	while (i <= j)
+	if (size != 0)
 	{
-		while (vertexList[i]->GetName() < mid->GetName())
-			i++;
-		while (vertexList[j]->GetName() > mid->GetName())
-			j--;
-		if (i <= j)
+		int i = 0;
+		int j = size - 1;
+		int midi = size / 2;
+		Point* mid = vertexList[midi];
+		while (i <= j)
 		{
-			if (i != j)
+			while (vertexList[i]->GetName() < mid->GetName())
+				i++;
+			while (vertexList[j]->GetName() > mid->GetName())
+				j--;
+			if (i <= j)
 			{
-				Point* temp1 = vertexList[i];
-				Point* temp2 = vertexList[j];
-				vertexList.erase(vertexList.begin() + i);
-				vertexList.insert(vertexList.begin() + i, temp2);
-				vertexList.erase(vertexList.begin() + j);
-				vertexList.insert(vertexList.begin() + j, temp1);
+				if (i != j)
+				{
+					Point* temp1 = vertexList[i];
+					Point* temp2 = vertexList[j];
+					vertexList.erase(vertexList.begin() + i);
+					vertexList.insert(vertexList.begin() + i, temp2);
+					vertexList.erase(vertexList.begin() + j);
+					vertexList.insert(vertexList.begin() + j, temp1);
+				}
+				i++;
+				j--;
 			}
-			i++;
-			j--;
+		}
+		vector<Point*> left;
+		int k1 = 0;
+		while (k1 < midi)
+		{
+			left.push_back(vertexList[k1]);
+			k1++;
+		}
+		vector<Point*> right;
+		int k2 = midi;
+		while (k2 < size)
+		{
+			right.push_back(vertexList[k2]);
+			k2++;
+		}
+		vertexList.clear();
+
+		if (j > 0)
+			left = SortVertices(left, left.size());
+		if (i < size)
+			right = SortVertices(right, right.size());
+		int k3 = 0;
+		while (k3 < left.size())
+		{
+			vertexList.push_back(left[k3]);
+			k3++;
+		}
+		k3 = 0;
+		while (k3 < right.size())
+		{
+			vertexList.push_back(right[k3]);
+			k3++;
 		}
 	}
-	vector<Point*> left;
-	int k1 = 0;
-	while (k1 < midi)
-	{
-		left.push_back(vertexList[k1]);
-		k1++;
-	}
-	vector<Point*> right;
-	int k2 = midi;
-	while (k2 < size)
-	{
-		right.push_back(vertexList[k2]);
-		k2++;
-	}
-	vertexList.clear();
-
-	if (j > 0)
-		left = SortVertices(left, left.size());
-	if (i < size)
-		right = SortVertices(right, right.size());
-	int k3 = 0;
-	while (k3 < left.size())
-	{
-		vertexList.push_back(left[k3]);
-		k3++;
-	}
-	k3 = 0;
-	while (k3 < right.size())
-	{
-		vertexList.push_back(right[k3]);
-		k3++;
-	}
-
 	return vertexList;
-
 }
 
 //measure
@@ -401,6 +402,7 @@ void Figure2D::Edit()
 		SetEdges(tempi);
 		if (tempi < vertices.size())
 		{
+			//����������� ������ �� ����, ��� � ������ ������ ���������� ������ � �����
 			cout << "Deleting excess vertices." << endl;
 			for (int s = 0; s < vertices.size() - tempi; s++)
 			{

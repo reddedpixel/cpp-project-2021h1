@@ -69,27 +69,32 @@ void Figure3D::AddVertex(int i, Point* vertex)
 //edges
 int Figure3D::RecountEdges()
 {
-	vector<Point*> checkedvertl;
-	edges = faces[0]->GetEdges();//�������� ����� ������� � �������� ���������
-	for (int i = 0; i < faces[0]->GetEdges(); i++)
-		checkedvertl.push_back(faces[0]->GetVertices()[i]);//��������� � ������ �������� ������ � �������
-	for (int j = 1; j < faces.size(); j++)
+	if (faces.size() == 0)
+		return 0;
+	else
 	{
-		vector<Point*> templist = faces[j]->GetVertices();
-		int sharedvertices = 0;
-		for (int j1 = 0; j1 < checkedvertl.size(); j1++)
+		vector<Point*> checkedvertl;
+		edges = faces[0]->GetEdges();//�������� ����� ����� � �������� ���������
+		for (int i = 0; i < faces[0]->GetEdges(); i++)
+			checkedvertl.push_back(faces[0]->GetVertices()[i]);//��������� � ������ �������� ������ � �������
+		for (int j = 1; j < faces.size(); j++)//��������������� ������������� ��������� �����
 		{
-			for (int j2 = 0; j2 < templist.size(); j2++)
+			vector<Point*> templist = faces[j]->GetVertices();
+			int sharedvertices = 0;
+			for (int j1 = 0; j1 < checkedvertl.size(); j1++)
 			{
-				if (templist[j2] == checkedvertl[j1])
-					sharedvertices++;
+				for (int j2 = 0; j2 < templist.size(); j2++)
+				{
+					if (templist[j2] == checkedvertl[j1])
+						sharedvertices++;//�������, ������� ����� ������ � ����� � ��� ��������� �������
+				}
 			}
+			edges = edges + faces[j]->GetEdges() - sharedvertices;
+			if (j != faces.size() - 1)
+				edges++;//� �� ����, ������ ��� ��� � �������������� ����� ������. ��������� ���.
 		}
-		edges = edges + faces[j]->GetEdges() - sharedvertices;
-		if (j != faces.size() - 1)
-			edges++;
+		return edges;
 	}
-	return edges;
 }
 
 //faces
@@ -419,23 +424,27 @@ void Figure3D::Edit()
 			cin >> tempi;
 			vector<string> vertstr;
 			foundFace = 0;
-			foundVertex = 1;
+			vector<bool> foundVertices;
+			vector<bool> ex;
+			for (int j0 = 0; j0 < tempi; j0++)
+				ex.push_back(1);
 			for (int j1 = 0; j1 < tempi; j1++)
 			{
 				cout << "Input the name of vertex " << j1 + 1 << ": ";
 				cin >> temps;
 				vertstr.push_back(temps);
 			}
+
 			for (int j2 = 0; j2 < faces.size(); j2++)
 			{
 				if (faces[j2]->GetEdges() == tempi)
 				{
 					for (int j3 = 0; j3 < tempi; j3++)
 					{
-						if (faces[j2]->GetVertices()[j3]->GetName() != vertstr[j3])
-							foundVertex = 0;
+						if (faces[j2]->GetVertices()[j3]->GetName() == vertstr[j3])
+							foundVertices.push_back(1);
 					}
-					if (foundVertex)
+					if (foundVertices == ex)
 					{
 						foundFace = 1;
 						tempi = j2;
@@ -446,33 +455,52 @@ void Figure3D::Edit()
 			if (foundFace)
 			{
 				DeleteFace(tempi);
-				for (int j4 = 0; j4 < vertstr.size(); j4++)
+				if (faces.size() == 0)
 				{
-					foundVertex = 0;
-					for (int j5 = 0; j5 < faces.size(); j5++)
+					for (int j9 = 0; j9 < vertstr.size(); j9++)
 					{
-						for (int j6 = 0; j6 < faces[j5]->GetEdges(); j6++)
+						for (int j8 = 0; j8 < vertices.size(); j8++)
 						{
-							if (faces[j5]->GetVertices()[j6]->GetName() == vertstr[j4])
+							if (vertices[j8]->GetName() == vertstr[j9])
 							{
 								foundVertex = 1;
-								break;
+								tempi = j8;
 							}
 						}
 						if (foundVertex)
-							break;
-						else
+							DeleteVertex(tempi);
+					}
+				}
+				else
+				{
+					for (int j4 = 0; j4 < vertstr.size(); j4++)
+					{
+						foundVertex = 0;
+						for (int j5 = 0; j5 < faces.size(); j5++)
 						{
-							for (int j7 = 0; j7 < vertices.size(); j7++)
+							for (int j6 = 0; j6 < faces[j5]->GetEdges(); j6++)
 							{
-								if (vertices[j7]->GetName() == vertstr[j4])
+								if (faces[j5]->GetVertices()[j6]->GetName() == vertstr[j4])
 								{
 									foundVertex = 1;
-									tempi = j7;
+									break;
 								}
 							}
 							if (foundVertex)
-								DeleteVertex(tempi);
+								break;
+							else
+							{
+								for (int j7 = 0; j7 < vertices.size(); j7++)
+								{
+									if (vertices[j7]->GetName() == vertstr[j4])
+									{
+										foundVertex = 1;
+										tempi = j7;
+									}
+								}
+								if (foundVertex)
+									DeleteVertex(tempi);
+							}
 						}
 					}
 				}
