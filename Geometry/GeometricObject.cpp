@@ -251,7 +251,7 @@ void GeometricObject::Edit()
 				AddAxis(temps);
 			else if (tempi > 0)
 			{
-				tempi--;
+				tempi--;//потому что мы считаем от 0, а пользователь от 1
 				AddAxis(tempi, temps);
 			}
 			else
@@ -307,30 +307,7 @@ void GeometricObject::Save(ofstream& f)
 	f << "</GeometricObject>" << endl;
 }
 
-void GeometricObject::Load(ifstream& fileStream) {
-    std::string buffer, fieldName, fieldValue;
-    bool foundStart = false;
-    while (getline(fileStream, buffer) && buffer != "</Point>") {
-        // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ РёР· РєРѕРЅС†Р° Рё РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё
-        buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
-        buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
-        if (buffer == "<Point>") {
-            foundStart = true;
-        } else if (foundStart) {
-            fieldName = buffer.substr(0, buffer.find(':'));
-            fieldValue = buffer.substr(buffer.find(':') + 1);
-            // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ РёР· РЅР°С‡Р°Р»Р°
-            fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
-            if (fieldName == "name" && name.empty()) {
-                name = fieldValue;
-            } else if (fieldName == "dimensions" && dimensions == 0) {
-                dimensions = stoi(fieldValue);
-            } else if (fieldName == "axes" && axes.empty()) {
-                std::istringstream stringStream(fieldValue);
-                while (stringStream >> buffer) {
-                    axes.push_back(buffer);
-                }
-            }
-        }
-    }
+void GeometricObject::Load(vector<string> x)
+{
+	//Загрузка из файлов будет реализована уже к утру. Она есть для части объектов, но не для всех.
 }

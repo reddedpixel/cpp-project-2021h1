@@ -120,7 +120,7 @@ void Figure2D::PrintVertices()
 			cout << vertices[i]->GetName()<<" ";
 }
 
-vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)
+vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)//простое сравнение всех следующих элементов
 {
 	for (int i = 0; i < vertexList.size()-1; i++)
 	{
@@ -136,68 +136,69 @@ vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)
 	return vertexList;
 }
 
-vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ quicksort'пїЅпїЅ
+vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//рекурсивная сортировка quicksort'ом по имени
 {
-	int i = 0;
-	int j = size - 1;
-	int midi = size / 2;
-	Point* mid = vertexList[midi];
-	while (i <= j)
+	if (size != 0)
 	{
-		while (vertexList[i]->GetName() < mid->GetName())
-			i++;
-		while (vertexList[j]->GetName() > mid->GetName())
-			j--;
-		if (i <= j)
+		int i = 0;
+		int j = size - 1;
+		int midi = size / 2;
+		Point* mid = vertexList[midi];
+		while (i <= j)
 		{
-			if (i != j)
+			while (vertexList[i]->GetName() < mid->GetName())
+				i++;
+			while (vertexList[j]->GetName() > mid->GetName())
+				j--;
+			if (i <= j)
 			{
-				Point* temp1 = vertexList[i];
-				Point* temp2 = vertexList[j];
-				vertexList.erase(vertexList.begin() + i);
-				vertexList.insert(vertexList.begin() + i, temp2);
-				vertexList.erase(vertexList.begin() + j);
-				vertexList.insert(vertexList.begin() + j, temp1);
+				if (i != j)
+				{
+					Point* temp1 = vertexList[i];
+					Point* temp2 = vertexList[j];
+					vertexList.erase(vertexList.begin() + i);
+					vertexList.insert(vertexList.begin() + i, temp2);
+					vertexList.erase(vertexList.begin() + j);
+					vertexList.insert(vertexList.begin() + j, temp1);
+				}
+				i++;
+				j--;
 			}
-			i++;
-			j--;
+		}
+		vector<Point*> left;
+		int k1 = 0;
+		while (k1 < midi)
+		{
+			left.push_back(vertexList[k1]);
+			k1++;
+		}
+		vector<Point*> right;
+		int k2 = midi;
+		while (k2 < size)
+		{
+			right.push_back(vertexList[k2]);
+			k2++;
+		}
+		vertexList.clear();
+
+		if (j > 0)
+			left = SortVertices(left, left.size());
+		if (i < size)
+			right = SortVertices(right, right.size());
+		int k3 = 0;
+		while (k3 < left.size())
+		{
+			vertexList.push_back(left[k3]);
+			k3++;
+		}
+		k3 = 0;
+		while (k3 < right.size())
+		{
+			vertexList.push_back(right[k3]);
+			k3++;
 		}
 	}
-	vector<Point*> left;
-	int k1 = 0;
-	while (k1 < midi)
-	{
-		left.push_back(vertexList[k1]);
-		k1++;
-	}
-	vector<Point*> right;
-	int k2 = midi;
-	while (k2 < size)
-	{
-		right.push_back(vertexList[k2]);
-		k2++;
-	}
-	vertexList.clear();
-
-	if (j > 0)
-		left = SortVertices(left, left.size());
-	if (i < size)
-		right = SortVertices(right, right.size());
-	int k3 = 0;
-	while (k3 < left.size())
-	{
-		vertexList.push_back(left[k3]);
-		k3++;
-	}
-	k3 = 0;
-	while (k3 < right.size())
-	{
-		vertexList.push_back(right[k3]);
-		k3++;
-	}
-
 	return vertexList;
-
 }
 
 //measure
@@ -401,6 +402,7 @@ void Figure2D::Edit()
 		SetEdges(tempi);
 		if (tempi < vertices.size())
 		{
+			//реализовано исходя из того, что у фигуры равное количество вершин и ребер
 			cout << "Deleting excess vertices." << endl;
 			for (int s = 0; s < vertices.size() - tempi; s++)
 			{
@@ -539,47 +541,7 @@ void Figure2D::Save(ofstream& f)
 	f << "</Figure2D>" << endl;
 }
 
-void Figure2D::Load(ifstream& fileStream) {
-    std::string buffer, fieldName, fieldValue;
-    bool foundStart = false;
-    while (getline(fileStream, buffer) && buffer != "</Figure2D>") {
-        // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ РёР· РєРѕРЅС†Р° Рё РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё
-        buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
-        buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
-        if (buffer == "<Figure2D>") {
-            foundStart = true;
-        } else if (foundStart) {
-            fieldName = buffer.substr(0, buffer.find(':'));
-            fieldValue = buffer.substr(buffer.find(':') + 1);
-            // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ РёР· РЅР°С‡Р°Р»Р°
-            fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
-            if (fieldName == "name" && name.empty()) {
-                name = fieldValue;
-            } else if (fieldName == "dimensions" && dimensions == 0) {
-                dimensions = stoi(fieldValue);
-            } else if (fieldName == "axes" && axes.empty()) {
-                std::istringstream stringStream(fieldValue);
-                while (stringStream >> buffer) {
-                    axes.push_back(buffer);
-                }
-            } else if (fieldName == "edges") {
-                edges = stoi(fieldValue);
-            } else if (fieldName == "vertices") {
-                std::string nextLine;
-                while (nextLine != "measure" && !fileStream.eof()) {
-                    Point bufferPoint;
-                    bufferPoint.Load(fileStream);
-                    vertices.push_back(&bufferPoint);
-                    bufferPoint.Clear();
-                    long long pos = fileStream.tellg();
-                    getline(fileStream, nextLine);
-                    nextLine.erase(nextLine.begin(),std::find_if_not(nextLine.begin(),nextLine.end(), ::isspace));
-                    nextLine = nextLine.substr(0, buffer.find(':'));
-                    fileStream.seekg(pos);
-                }
-            } else if (fieldName == "measure") {
-                measure = stof(fieldValue);
-            }
-        }
-    }
+void Figure2D::Load(vector<string> x)
+{
+
 }

@@ -3,21 +3,22 @@
 #include <utility>
 #include <cassert>
 
-Line::Line(): GeometricObject() {
-    _points = std::vector<Point>();
-    _start = _end = Point();
+Line::Line() : GeometricObject() {
+    _points = std::vector<Point*>();
+    _start = _end = nullptr;
     _equation = "";
     _length = 0;
+    cout << "Object is now a line." << endl;
 }
 
-Line::Line(int nDimensions, vector<string> axes, std::vector<Point> points):
+Line::Line(int nDimensions, vector<string> axes, std::vector<Point*> points):
         GeometricObject(nDimensions, std::move(axes)),
            _start(points.front()), _end(points.back()) {
     // проверка на то, что количество координат каждой
     // точки совпадает с размерностью линии
     bool hasSameDimension = true;
-    for (Point p : _points) {
-        if (p.GetCoordinates().size() != nDimensions) {
+    for (Point* p : _points) {
+        if (p->GetCoordinates().size() != nDimensions) {
             hasSameDimension = false;
         }
     }
@@ -28,20 +29,20 @@ Line::Line(int nDimensions, vector<string> axes, std::vector<Point> points):
     _length = 0;
 }
 
-bool Line::isPointOnLine(Point point) {
+bool Line::isPointOnLine(Point* point) {
     if (_points.empty()) {
         return false;
     }
     // если количество координат данной точки не совпадает с
     // размерностью линии (числом координат любой точки,
     // уже лежащей на линии), то вернуть "ложь"
-    std::vector<float> pointCoords = point.GetCoordinates();
-    if (pointCoords.size() != _points[0].GetCoordinates().size()) {
+    std::vector<float> pointCoords = point->GetCoordinates();
+    if (pointCoords.size() != _points[0]->GetCoordinates().size()) {
         return false;
     }
     // если найдется хотя бы одна точка, совпадающая с данной,
     // то вернуть "истина"
-   for (const Point& p : _points) {
+   for (Point* p : _points) {
         if (point == p) {
             return true;
         }
@@ -49,15 +50,15 @@ bool Line::isPointOnLine(Point point) {
     return false;
 }
 
-void Line::addPoint(const Point& point) {
+void Line::addPoint(Point* point) {
     // если точка не на линии, то добавить её на линию
     if (!this->isPointOnLine(point)) {
         _points.push_back(point);
     }
 }
 
-Point Line::removePoint() {
-    Point back = _points.back();
+Point* Line::removePoint() {
+    Point* back = _points.back();
     _points.pop_back();
     if (!_points.empty()) {
         // если выброшенная точка совпадает с конечной,
@@ -74,7 +75,7 @@ Point Line::removePoint() {
     return back;
 }
 
-void Line::setStartPoint(const Point& start) {
+void Line::setStartPoint(Point* start) {
     // если точка start не на линии, то добавить её на линию
     if (!this->isPointOnLine(start)) {
         _points.push_back(start);
@@ -82,11 +83,11 @@ void Line::setStartPoint(const Point& start) {
     _start = start;
 }
 
-Point Line::getStartPoint() {
+Point* Line::getStartPoint() {
     return _start;
 }
 
-void Line::setEndPoint(const Point& end) {
+void Line::setEndPoint(Point* end) {
     // если точка end не на линии, то добавить её на линию
     if (!this->isPointOnLine(end)) {
         _points.push_back(end);
@@ -94,7 +95,7 @@ void Line::setEndPoint(const Point& end) {
     _end = end;
 }
 
-Point Line::getEndPoint() {
+Point* Line::getEndPoint() {
     return _end;
 }
 
@@ -113,14 +114,6 @@ void Line::setEquation(std::string equation) {
 
 std::string Line::getEquation() {
     return _equation;
-}
-
-void Line::Clear() {
-    GeometricObject::Clear();
-    _equation = "";
-    _points = std::vector<Point>();
-    _start = _end = Point();
-    _length = 0;
 }
 
 void Line::Load(ifstream& fileStream) {
@@ -150,11 +143,10 @@ void Line::Load(ifstream& fileStream) {
                 _equation = fieldValue;
             } else if (fieldName == "points" && _points.empty()) {
                 std::string nextLine;
-                while (nextLine != "length" && !fileStream.eof()) {
-                    Point bufferPoint;
-                    bufferPoint.Load(fileStream);
+                while (nextLine != "length") {
+                    Point* bufferPoint = new Point;
+                    bufferPoint->Load(fileStream);
                     _points.push_back(bufferPoint);
-                    bufferPoint.Clear();
                     long long pos = fileStream.tellg();
                     getline(fileStream, nextLine);
                     nextLine.erase(nextLine.begin(), std::find_if_not(nextLine.begin(), nextLine.end(), ::isspace));
@@ -169,6 +161,32 @@ void Line::Load(ifstream& fileStream) {
         }
     }
 }
+
+void Line::Fill()
+{
+    int tempi;
+    string temps;
+    cout << "- Filling general object information. -" << endl;
+    GeometricObject::Fill();
+    cout << "--- Filling specific line information. ---" << endl;
+    cout << "Input equation: ";
+    cin >> temps;
+    _equation = temps;
+    cout << "- Adding start point. -" << endl;
+    Point* spoint = new Point(dimensions, axes);
+    spoint->Fill();
+    _start = spoint;
+    cout << "- Adding end point. -" << endl;
+    Point* epoint = new Point(dimensions, axes);
+    epoint->Fill();
+    cout << "Input length: ";
+    cin >> tempi;
+    _length = tempi;
+    cout << "Line " << name << " with equation " << _equation << " added." << endl;
+    cout << "----------------" << endl;
+    cout << endl;
+}
+
 
 bool Line::operator==(const Line& other) {
     for (int i = 0; i < _points.size(); i++) {

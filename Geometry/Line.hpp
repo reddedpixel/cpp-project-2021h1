@@ -8,44 +8,33 @@
 class Line: public GeometricObject {
 public:
     Line();
-
-    Line(int nDimensions, vector<string> axes, std::vector<Point> points);
-
+    Line(int nDimensions, vector<string> axes, std::vector<Point*> points);
     ~Line() = default;
-
-    bool isPointOnLine(Point point);
-
-    void addPoint(const Point& point);
-
-    Point removePoint();
-
-    void setStartPoint(const Point& start);
-
-    Point getStartPoint();
-
-    void setEndPoint(const Point& end);
-
-    Point getEndPoint();
-
-    void setLength(int length);
-
+    //gets
+    Point* getStartPoint();
+    Point* getEndPoint();
     int getLength() const;
-
-    void setEquation(std::string equation);
-
     std::string getEquation();
-
-    virtual void Clear();
+    //sets
+    void setStartPoint(Point* start);
+    void setEndPoint(Point* end);
+    void setLength(int length);
+    void setEquation(std::string equation);
+    //points
+    bool isPointOnLine(Point* point);
+    void addPoint(Point* point);
+    Point* removePoint();
 
     virtual void Load(ifstream& fileStream);
+    virtual void Fill();
 
     bool operator==(const Line& other);
 
 protected:
     std::string _equation;
-    std::vector<Point> _points;
-    Point _start;
-    Point _end;
+    std::vector<Point*> _points;
+    Point* _start;
+    Point* _end;
     int _length;
 };
 

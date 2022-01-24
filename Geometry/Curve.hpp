@@ -4,23 +4,17 @@
 
 #include "Line.hpp"
 
-class Curve: Line {
+class Curve: public Line {
 public:
     Curve();
-
     Curve(int nDimensions, std::vector<std::string> axes,
-          std::vector<Point> points, std::string curveType);
-
+          std::vector<Point*> points, std::string curveType);
     ~Curve() = default;
 
     std::string getCurveType();
-
     void setCurveType(std::string curveType);
 
-    void Clear();
-
-    void Load(ifstream& fileStream);
-
+    virtual void Fill();
 private:
     std::string _curveType;
 };
