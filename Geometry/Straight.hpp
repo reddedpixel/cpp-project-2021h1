@@ -17,6 +17,8 @@ public:
 
     bool isParallel(const Line& line);
 
+    void Load(ifstream& fileStream);
+
 private:
     std::vector<Line> _parallelLines;
 };

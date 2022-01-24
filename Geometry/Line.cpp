@@ -115,6 +115,14 @@ std::string Line::getEquation() {
     return _equation;
 }
 
+void Line::Clear() {
+    GeometricObject::Clear();
+    _equation = "";
+    _points = std::vector<Point>();
+    _start = _end = Point();
+    _length = 0;
+}
+
 void Line::Load(ifstream& fileStream) {
     std::string buffer, fieldName, fieldValue;
     bool foundStart = false;
@@ -142,10 +150,11 @@ void Line::Load(ifstream& fileStream) {
                 _equation = fieldValue;
             } else if (fieldName == "points" && _points.empty()) {
                 std::string nextLine;
-                while (nextLine != "length") {
+                while (nextLine != "length" && !fileStream.eof()) {
                     Point bufferPoint;
                     bufferPoint.Load(fileStream);
                     _points.push_back(bufferPoint);
+                    bufferPoint.Clear();
                     long long pos = fileStream.tellg();
                     getline(fileStream, nextLine);
                     nextLine.erase(nextLine.begin(), std::find_if_not(nextLine.begin(), nextLine.end(), ::isspace));

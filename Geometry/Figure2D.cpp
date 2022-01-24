@@ -136,7 +136,7 @@ vector<Point*> Figure2D::RemoveDuplicateVertices(vector<Point*> vertexList)
 	return vertexList;
 }
 
-vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//���������� quicksort'��
+vector<Point*> Figure2D::SortVertices(vector<Point*> vertexList, int size)//���������� quicksort'��
 {
 	int i = 0;
 	int j = size - 1;
@@ -539,7 +539,47 @@ void Figure2D::Save(ofstream& f)
 	f << "</Figure2D>" << endl;
 }
 
-void Figure2D::Load(vector<string> x)
-{
-
+void Figure2D::Load(ifstream& fileStream) {
+    std::string buffer, fieldName, fieldValue;
+    bool foundStart = false;
+    while (getline(fileStream, buffer) && buffer != "</Figure2D>") {
+        // удаление лишних пробелов из конца и начала строки
+        buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
+        buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
+        if (buffer == "<Figure2D>") {
+            foundStart = true;
+        } else if (foundStart) {
+            fieldName = buffer.substr(0, buffer.find(':'));
+            fieldValue = buffer.substr(buffer.find(':') + 1);
+            // удаление лишних пробелов из начала
+            fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
+            if (fieldName == "name" && name.empty()) {
+                name = fieldValue;
+            } else if (fieldName == "dimensions" && dimensions == 0) {
+                dimensions = stoi(fieldValue);
+            } else if (fieldName == "axes" && axes.empty()) {
+                std::istringstream stringStream(fieldValue);
+                while (stringStream >> buffer) {
+                    axes.push_back(buffer);
+                }
+            } else if (fieldName == "edges") {
+                edges = stoi(fieldValue);
+            } else if (fieldName == "vertices") {
+                std::string nextLine;
+                while (nextLine != "measure" && !fileStream.eof()) {
+                    Point bufferPoint;
+                    bufferPoint.Load(fileStream);
+                    vertices.push_back(&bufferPoint);
+                    bufferPoint.Clear();
+                    long long pos = fileStream.tellg();
+                    getline(fileStream, nextLine);
+                    nextLine.erase(nextLine.begin(),std::find_if_not(nextLine.begin(),nextLine.end(), ::isspace));
+                    nextLine = nextLine.substr(0, buffer.find(':'));
+                    fileStream.seekg(pos);
+                }
+            } else if (fieldName == "measure") {
+                measure = stof(fieldValue);
+            }
+        }
+    }
 }

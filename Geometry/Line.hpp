@@ -5,7 +5,7 @@
 #include "Point.h"
 #include <string>
 
-class Line: GeometricObject {
+class Line: public GeometricObject {
 public:
     Line();
 
@@ -35,7 +35,9 @@ public:
 
     std::string getEquation();
 
-    void Load(ifstream& fileStream);
+    virtual void Clear();
+
+    virtual void Load(ifstream& fileStream);
 
     bool operator==(const Line& other);
 

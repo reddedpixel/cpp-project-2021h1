@@ -17,6 +17,10 @@ public:
 
     void setCurveType(std::string curveType);
 
+    void Clear();
+
+    void Load(ifstream& fileStream);
+
 private:
     std::string _curveType;
 };

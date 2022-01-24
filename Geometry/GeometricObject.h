@@ -41,5 +41,5 @@ public:
 	virtual void Edit();
 
 	virtual void Save(ofstream& f);
-	virtual void Load(vector<string> x);
+	virtual void Load(ifstream& fileStream);
 };

@@ -70,9 +70,9 @@ void Figure3D::AddVertex(int i, Point* vertex)
 int Figure3D::RecountEdges()
 {
 	vector<Point*> checkedvertl;
-	edges = faces[0]->GetEdges();//выбираем любую сторону в качестве начальной
+	edges = faces[0]->GetEdges();//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	for (int i = 0; i < faces[0]->GetEdges(); i++)
-		checkedvertl.push_back(faces[0]->GetVertices()[i]);//добавляем в список учтенных вершин её вершины
+		checkedvertl.push_back(faces[0]->GetVertices()[i]);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	for (int j = 1; j < faces.size(); j++)
 	{
 		vector<Point*> templist = faces[j]->GetVertices();
@@ -525,7 +525,43 @@ void Figure3D::Save(ofstream& f)
 	f << "</Figure3D>" << endl;
 }
 
-void Figure3D::Load(vector<string> x)
-{
-
+void Figure3D::Load(ifstream& fileStream) {
+    std::string buffer, fieldName, fieldValue;
+    bool foundStart = false;
+    while (getline(fileStream, buffer) && buffer != "</Figure3D>") {
+        // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ РёР· РєРѕРЅС†Р° Рё РЅР°С‡Р°Р»Р° СЃС‚СЂРѕРєРё
+        buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
+        buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
+        if (buffer == "<Figure3D>") {
+            foundStart = true;
+        } else if (foundStart) {
+            fieldName = buffer.substr(0, buffer.find(':'));
+            fieldValue = buffer.substr(buffer.find(':') + 1);
+            // СѓРґР°Р»РµРЅРёРµ Р»РёС€РЅРёС… РїСЂРѕР±РµР»РѕРІ РёР· РЅР°С‡Р°Р»Р°
+            fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
+            if (fieldName == "name" && name.empty()) {
+                name = fieldValue;
+            } else if (fieldName == "dimensions" && dimensions == 0) {
+                dimensions = stoi(fieldValue);
+            } else if (fieldName == "axes" && axes.empty()) {
+                std::istringstream stringStream(fieldValue);
+                while (stringStream >> buffer) {
+                    axes.push_back(buffer);
+                }
+            } else if (fieldName == "faces" && faces.empty()) {
+                std::string nextLine;
+                while (nextLine != "</Figure3D>" && !fileStream.eof()) {
+                    Figure2D bufferFigure2D;
+                    bufferFigure2D.Load(fileStream);
+                    faces.push_back(&bufferFigure2D);
+                    bufferFigure2D.Clear();
+                    long long pos = fileStream.tellg();
+                    getline(fileStream, nextLine);
+                    nextLine.erase(nextLine.begin(),std::find_if_not(nextLine.begin(),nextLine.end(), ::isspace));
+                    nextLine = nextLine.substr(0, buffer.find(':'));
+                    fileStream.seekg(pos);
+                }
+            }
+        }
+    }
 }
