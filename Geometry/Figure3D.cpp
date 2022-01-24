@@ -528,17 +528,24 @@ void Figure3D::Save(ofstream& f)
 void Figure3D::Load(ifstream& fileStream) {
     std::string buffer, fieldName, fieldValue;
     bool foundStart = false;
+
     while (getline(fileStream, buffer) && buffer != "</Figure3D>") {
-        // удаление лишних пробелов из конца и начала строки
+        // удаление лишних пробелов из конца строки buffer
         buffer.erase(std::find_if_not(buffer.rbegin(),buffer.rend(),::isspace).base(), buffer.end());
+        // удаление лишних пробелов из начала строки buffer
         buffer.erase(buffer.begin(), std::find_if_not(buffer.begin(), buffer.end(), ::isspace));
+
         if (buffer == "<Figure3D>") {
             foundStart = true;
         } else if (foundStart) {
+            // парсим в fieldName и fieldValue название и значение поля соответственно
             fieldName = buffer.substr(0, buffer.find(':'));
             fieldValue = buffer.substr(buffer.find(':') + 1);
-            // удаление лишних пробелов из начала
+
+            // удаление лишних пробелов из начала строки fieldValue
             fieldValue.erase(fieldValue.begin(), std::find_if_not(fieldValue.begin(), fieldValue.end(), ::isspace));
+
+            // в зависимости от названия поля обрабатываем его
             if (fieldName == "name" && name.empty()) {
                 name = fieldValue;
             } else if (fieldName == "dimensions" && dimensions == 0) {
@@ -555,10 +562,11 @@ void Figure3D::Load(ifstream& fileStream) {
                     bufferFigure2D.Load(fileStream);
                     faces.push_back(&bufferFigure2D);
                     bufferFigure2D.Clear();
+                    // запоминаем текущее значение курсора файла
                     long long pos = fileStream.tellg();
+                    // читаем следующую строку файла
                     getline(fileStream, nextLine);
-                    nextLine.erase(nextLine.begin(),std::find_if_not(nextLine.begin(),nextLine.end(), ::isspace));
-                    nextLine = nextLine.substr(0, buffer.find(':'));
+                    // возвращаем курсор на значение до чтения строки
                     fileStream.seekg(pos);
                 }
             }
