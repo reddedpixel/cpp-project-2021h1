@@ -1,0 +1,13 @@
+﻿  Circle.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(113,18): warning C4018: >: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(116,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(120,18): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(123,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(130,24): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(189,22): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Circle.cpp(241,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Curve.cpp
+D:\studies\uni\программирование\Geometry\Geometry\Curve.cpp(62,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\studies\uni\программирование\Geometry\Geometry\Curve.cpp(67,23): warning C4018: <: несоответствие типов со знаком и без знака
+  Создание кода...
+  Geometry.vcxproj -> D:\studies\uni\программирование\Geometry\Geometry\Debug\Geometry.exe

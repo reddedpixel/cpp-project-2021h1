@@ -1,0 +1,17 @@
+1
+<Circle>
+name: test
+dimensions: 2
+axes: ox oy 
+coordinates: 0
+edges: 1
+vertices: 
+<Point>
+name: O
+dimensions: 2
+axes: ox oy 
+coordinates: 1 1 
+</Point>
+measure: 3.14159
+radius: 1
+</Circle>
